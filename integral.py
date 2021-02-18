@@ -17,15 +17,18 @@ max = float(input())
 amplitude = max -min
 h = amplitude/k
 print("h:",h)
-b = min +h
+b = round(min +h,3)
 a = min
 soma = 0
 while(a< max):
-    print("\nLimites de",a,"á",b)
     alpha=(math.log(a)-(media+(desvio**2)))/desvio
     #print("alpha",alpha)
-    #l = b - 0.001
-    beta =(math.log(b)-(media+(desvio**2)))/desvio
+    if(b != max):
+        l = b - 0.0001
+    else:
+        l = b
+    beta =(math.log(l)-(media+(desvio**2)))/desvio
+    print("\nLimites de",a,"á",l)
     #print("beta",beta)
     e = media+((desvio**2)/2)
     integral = math.exp(e)*(I(beta)-I(alpha))
