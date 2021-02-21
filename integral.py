@@ -1,39 +1,55 @@
 import math
-def I(x):
-    z = x/(2**0.5)
-    b = (0.5*(math.erf(z)))+0.5
+
+#Aproximação polinomial da função erf().
+def erf(z):
+    t = 1/(1+(0.5*z))
+    polinomial = -(z**2)-1.26551223+(1.00002368*t)+(0.37409196*(t**2))+(0.09678418*(t**3))-(0.18628806*(t**4)) + \
+        (0.27886807*(t**5))-(1.13520398*(t**6)) + \
+        (1.48851587*(t**7))-(0.82215223*(t**8))+(0.17087277*(t**9))
+    eta = t*math.exp(polinomial)
+    return 1 - eta
+
+def I(x1):
+    z = x1/(2**0.5)
+    b = (0.5*(erf(z)))+0.5 #resultado = 0.871811223086162
+    #c = (0.5*(math.erf(z)))+0.5
+    #a = (math.erf(z) + erf(z))/2 #resultado = 0.9900470588968668
+    #b = (0.5*(math.erf(a)))+0.5
+    #b = (b +c)/2 #resultado = 0.9900470588968667
+    print("b:", b)
     return b
 
 media = 6.738704938
 desvio = 6.745522041
 count = 495
 k = round(1+(3.3*math.log10(count)))
-#k = 1
-print("Quantidade de classes",k)
+# k = 1
+print("Quantidade de classes", k)
 print("Digite o valor mínimo")
 min = float(input())
 print("Digite o valor máximo")
 max = float(input())
-amplitude = max -min
+amplitude = max - min
 h = amplitude/k
-print("h:",h)
-b = round(min +h,3)
+print("h:", h)
+b = round(min + h, 3)
 a = min
 soma = 0
-while(a< max):
-    alpha=(math.log(a)-(media+(desvio**2)))/desvio
-    #print("alpha",alpha)
+while(a < max):
+    alpha = (math.log(a)-(media+(desvio**2)))/desvio
+    # print("alpha",alpha)
     if(b != max):
         l = b - 0.0001
     else:
         l = b
-    beta =(math.log(l)-(media+(desvio**2)))/desvio
-    print("\nLimites de",a,"á",l)
-    #print("beta",beta)
+    beta = (math.log(l)-(media+(desvio**2)))/desvio
+    print("\nLimites de", a, "á", l)
+    # print("beta",beta)
     e = media+((desvio**2)/2)
     integral = math.exp(e)*(I(beta)-I(alpha))
-    soma+=integral
-    print("Resultado:",integral)
-    a = round(a+h,3)
-    b = round(b+h,3)
-print("\nSoma dos valores",soma)
+    # integral = round(integral,2)
+    soma += integral
+    print("Resultado:", integral)
+    a = round(a+h, 3)
+    b = round(b+h, 3)
+print("\nSoma dos valores", soma)
