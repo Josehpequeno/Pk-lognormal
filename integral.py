@@ -11,12 +11,14 @@ def erf(z):
 
 def I(x1):
     z = x1/(2**0.5)
-    b = (0.5*(erf(z)))+0.5 #resultado = 0.871811223086162
+    #b = 0.5*math.erfc(-z)
+    #b = (0.5*(erf(z)))+0.5 #resultado = 0.871811223086162
     #c = (0.5*(math.erf(z)))+0.5
     #a = (math.erf(z) + erf(z))/2 #resultado = 0.9900470588968668
-    #b = (0.5*(math.erf(a)))+0.5
+    b = (0.5*(math.erf(z)))+0.5
     #b = (b +c)/2 #resultado = 0.9900470588968667
-    print("b:", b)
+    #b = round(b,14)
+    #print("b:", b)
     return b
 
 media = 6.738704938
@@ -39,7 +41,7 @@ while(a < max):
     alpha = (math.log(a)-(media+(desvio**2)))/desvio
     # print("alpha",alpha)
     if(b != max):
-        l = b - 0.0001
+        l = round(b - 0.0001,4)
     else:
         l = b
     beta = (math.log(l)-(media+(desvio**2)))/desvio
@@ -47,8 +49,13 @@ while(a < max):
     # print("beta",beta)
     e = media+((desvio**2)/2)
     integral = math.exp(e)*(I(beta)-I(alpha))
-    # integral = round(integral,2)
-    soma += integral
+    ####################### Aproximação do resultado para baixo
+    #integral sem aproximação para baixo  #resultado = 1.1077
+    #integral = round(integral-0.00005,4) #resultado = 1.107
+    #integral = round(integral-0.0005,3) #resultado = 1.103
+    integral = round(integral-0.005,2) #resultado = 1.06
+    #integral = round(integral-0.05,1) #resultado = 1.0
+    soma = round(integral+soma,4)
     print("Resultado:", integral)
     a = round(a+h, 3)
     b = round(b+h, 3)
